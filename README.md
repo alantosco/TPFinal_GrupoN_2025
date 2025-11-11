@@ -18,7 +18,8 @@ El sistema identifica la proximidad de un objeto, en este caso un auto de colecc
  
 6- Componentes: 1 Keypad, 1 Pantalla LCD, 1 Sensor de Proximidad, 1 Servo, 1 Arduino uno, Mini-Protoboard.
 
-7- Esquema electrico (BELEN)
+7- Esquema electrico
+<img width="1197" height="931" alt="Image" src="https://github.com/user-attachments/assets/8e9c10c4-4acb-4ad8-be27-2379b67f4e94" />
 
 
 8- Maquina de Estados (diagrama o explicacion) xxx
