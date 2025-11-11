@@ -1,9 +1,9 @@
 # TPFinal_GrupoN_2025
 Repositorio TP FINAL Arduino - LABO 1
 
-1- xxx Titulo y Descripcion del sistema
+1- Vilca Parking XP - Estacionamiento privado con acceso por ID.
 
-2- xxx Nombres integrantes
+2- Vilca Nicolas, Rojas Gabriel, Aguilera Ferreira Maria Belen, Ojeda Alan
 
 3- Pedro Iriso, Matias Gagliardo - Laboratorio de Computacion I 
 
@@ -16,9 +16,10 @@ El sistema identifica la proximidad de un objeto, en este caso un auto de colecc
 	NO cumplimos con el contador logico por tiempo
 
  
-6- Componentes: xxx
+6- Componentes: 1 Keypad, 1 Pantalla LCD, 1 Sensor de Proximidad, 1 Servo, 1 Arduino uno, Mini-Protoboard.
 
-7- Esquema electrico xxx
+7- Esquema electrico (BELEN)
+
 
 8- Maquina de Estados (diagrama o explicacion) xxx
 
