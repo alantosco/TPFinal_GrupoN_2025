@@ -25,9 +25,10 @@ int sensorPin = 10; // Sensor de ENTRADA (1)
 int sensorPinSalida = 11; // Sensor de SALIDA (2)
 
 Servo miServo;
-const int SERVO_ARRIBA = 90; //Sensor levantado
-const int SERVO_ABAJO = 0; //Sensor abajo
+const int SERVO_ARRIBA = 90; //Servo levantado
+const int SERVO_ABAJO = 0; //Servo en estado baso (abajo)
 
+//Configuracion del keypad
 const byte FILAS = 4;
 const byte COLS = 4;
 char keys[FILAS][COLS] = {
@@ -54,7 +55,7 @@ unsigned long tiempoServoLevantado = 0;
 const long duracionServoLevantado = 10000;
 bool barreraAbierta = false;
 
-//Variables millis estacionamiento lleno
+//Variables millis y estacionamiento lleno
 const int capacidadMaxima = 6;
 unsigned long tiempoEstacionamientoLleno = 0;
 const long duracionEstacionamientoLleno = 3000;
@@ -67,7 +68,7 @@ bool mostrandoError = false;
 
 //Variable millis mensaje de activacion
 unsigned long tiempoActivacion = 0;
-const long duracionMensajeActivacion = 3000; // 3 segundos, reemplaza el delay
+const long duracionMensajeActivacion = 3000; //3 segundos
 bool mostrandoActivacion = false;
 
 //Variable de estado para salida
@@ -76,7 +77,7 @@ bool cocheEstaPasando = false;
 //Variables millis salida de estacionamiento
 bool modoSalidaSinClave = false;  //Para salida de autos
 unsigned long tiempoSensor2Salida = 0; //Cuanto tiempo lleva detectando auto en sensor 2
-const long tiempoEsperaSensor2 = 3000; 
+const long tiempoEsperaSensor2 = 3000; //3 segundos
 
 //Variable que cuenta autos del estacionamiento
 long contadorAutos = 0;
@@ -93,7 +94,7 @@ void dibujarRueda(int x, int y, int r);
 void setup() {
   Serial.begin(9600);
 
-  // --- Inicializar OLED ---
+  //Prender pantalla LED
   if (!oled.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR)) {
     Serial.println(F("ERROR OLED"));
     while (true);
@@ -149,7 +150,7 @@ void loop() {
   char tecla = teclado.getKey();
 
   if (!mostrandoError && tecla) {
-      if (tecla == '*') {
+      if (tecla == '*') { //Condicion para bloquear el sistema presionando *  si no esta en la muestra de un error
           bloquearSistema();
       } else if (!sistemaActivado) {
           procesarClave(tecla);
@@ -165,8 +166,9 @@ void loop() {
   }
 }
 
-// ---------------- FUNCIONES -------------------------
+//Funciones
 
+//Bloquea el sistema completamente
 void bloquearSistema() {
     Serial.println("Sistema bloqueado.");
     sistemaActivado = false;
@@ -181,6 +183,7 @@ void bloquearSistema() {
     mostrarMensajeBloqueado();
 }
 
+//Se encarga de la logica para comparar la clave
 void procesarClave(char tecla) {
     if (indiceActual < LONGITUD_CLAVE) {
         claveIngresada[indiceActual] = tecla;
@@ -207,7 +210,7 @@ void procesarClave(char tecla) {
 
                 claveIngresada[0] = '\0';
                 indiceActual = 0;
-                //delay(3000);
+                //delay(3000); SIN DELAY
                 lcd.clear();
                 lcd.setCursor(0, 0);
                 lcd.print("Estado Barrera:");
@@ -229,8 +232,6 @@ void procesarClave(char tecla) {
         }
     }
 }
-
-// ------------- CONTROL BARRERA (MODO NORMAL) ----------------
 
 void controlarBarrera() {
     int estadoSensorEntrada = digitalRead(sensorPin);
@@ -308,14 +309,13 @@ void controlarBarrera() {
     }
 }
 
-// ------------- NUEVA FUNCIÓN: SALIDA SIN CLAVE ----------------
-
+//Permite la salida sin ingresar clave, se activa si el sensor 2 detecta algo durante unos segundos
 void controlarSalidaSinClave() {
     int estadoSensorEntrada = digitalRead(sensorPin);       // sensor 1
     int estadoSensorSalida = digitalRead(sensorPinSalida);  // sensor 2
     unsigned long tiempoActual2 = millis();
 
-    // Si aún NO estamos en modoSalidaSinClave -> mirar sensor 2 por 3 segundos
+    // Si aún NO estamos en modoSalidaSinClave el sensor 2 mira por 3 segundos
     if (!modoSalidaSinClave && !barreraAbierta) {
 
         if (estadoSensorSalida == LOW) {  // LOW = auto presente en sensor 2
@@ -341,8 +341,7 @@ void controlarSalidaSinClave() {
             // Se perdió la detección antes de llegar a 3s -> reset
             tiempoSensor2Salida = 0;
         }
-
-        return;
+      return;
     }
 
     // Ya estamos en modoSalidaSinClave (barrera abierta para que salga)
@@ -358,7 +357,7 @@ void controlarSalidaSinClave() {
             return;
         }
 
-        // El auto ya dejó de activar el sensor 1 -> terminó de salir
+        // El auto ya dejó de activar el sensor 1 por lo que terminó de salir
         if (cocheEstaPasando && estadoSensorEntrada == LOW) {
             Serial.println("Auto salio por sensor 1.");
 
@@ -375,12 +374,12 @@ void controlarSalidaSinClave() {
             lcd.print("Ingrese Clave:  ");
             lcd.setCursor(0, 1);
             lcd.print("SALIDA COMPLETA ");
-            //delay(1500);
+            //delay(1500); SIN DELAY
             mostrarMensajeBloqueado();
             return;
         }
 
-        //IF para calcular tiempo de salida
+        //If para calcular tiempo de salida
         if (!cocheEstaPasando) { 
             //Calcula los segundos restantes (10s)
             long tiempoRestante = (duracionServoLevantado - (tiempoActual2 - tiempoServoLevantado)) / 1000;
@@ -392,7 +391,7 @@ void controlarSalidaSinClave() {
             lcd.setCursor(0, 0); 
             lcd.print("Salida Autorizada");
             
-            // Muestra el tiempo restante en la línea 1
+            // Muestra el tiempo restante
             lcd.setCursor(0, 1);
             lcd.print("T. Restante: ");
             lcd.print(tiempoRestante);
@@ -420,8 +419,7 @@ void controlarSalidaSinClave() {
     }
 }
 
-// ---------------- MENSAJE BLOQUEADO ----------------
-
+//Limpia la pantalla y muestra el mensaje de ingreso
 void mostrarMensajeBloqueado() {
   lcd.clear();
   lcd.setCursor(0, 0);
