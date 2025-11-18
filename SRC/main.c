@@ -55,7 +55,7 @@ const long duracionServoLevantado = 10000;
 bool barreraAbierta = false;
 
 //Variables millis estacionamiento lleno
-const int capacidadMaxima = 5;
+const int capacidadMaxima = 6;
 unsigned long tiempoEstacionamientoLleno = 0;
 const long duracionEstacionamientoLleno = 3000;
 bool mostrandoLleno = false;
