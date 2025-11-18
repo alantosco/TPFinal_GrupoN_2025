@@ -24,8 +24,20 @@ En caso de que el codigo ingresado sea incorrecto, la barrera se matiene baja pi
 	Barrera Baja -> El programa queda a la espera de que se aproxime un auto al estacionamiento y pedirle el ID de Acceso, al introducir un ID de Acceso correcto se convierte al estado "Barrera Alta"
 	Barrera Alta -> El programa espera que el auto pase y luego baja 90 grados convirtiendose en el estado "Barrera Baja"
 
-9- Instrucciones de uso y ejecucion: (GABRIEL)
-
+9- Instrucciones de uso y ejecucion: 
+	Para poder llevar a cabo el funcionamiento de nuestro proyecto (que esta correctamente detallado en el punto cuatro) vamos a necesitar:
+	1 x Placa Arduino Uno
+	1 x Pantalla LCD 16x2 con módulo I2C : Que se conectará en GND, 5V, Pin A4 (SDA), Pin A5 (SCL)
+	1 x Pantalla OLED SSD1306 128x32 I2C : Que se conectará en GND, 5V, Pin A4 (SDA), Pin A5 (SCL)
+	1 x Keypad 4x4 : Filas: Pines 9,8,7,6 Columnas: Pines 5,4,3,2
+	1 x Servo : Que se conectará en GND, 5V, Pin 12 para datos.
+	2 x Sensores de proximidad IR (para entrada y salida) : Que se conectará en GND, 5V, Pin 10 para datos de entrada y para el segundo sensor Pin 11 para salida. 
+	1 x Protoboard : Aca vamos a conectar GND y 5V para poder alimentar a todos los componentes, ademas el Pin A4 y A5 para poder conectar simultaneamente las pantallas. 
+	Alredor de 30 cables
+	Inpresindible antes de ejecutar el codigo verificar que el IDE tenga descargadas las librerias correspondientes para que funcionen los componentes:
+	Adafruit_SSD1306 - Adafruit_GFX - Keypad - LiquidCrystal_I2C - Servo - Wire
+	Con eso inicializa el proceso detallado correctamente en el punto cinco. 
+	
 10- Imagenes o video demostrativo: (ALAN)
 
 11- Licencia y Creditos:
