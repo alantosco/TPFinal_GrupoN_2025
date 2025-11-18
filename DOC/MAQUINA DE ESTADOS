@@ -1,0 +1,29 @@
+
+1- Sistema BLOQUEADO / Esperando clave (Estado inicial por defecto)
+Condiciones: !sistemaActivado y !mostrandoError y !modoSalidaSinClave.
+Ejecución:
+La barrera baja y el sistema espera la entrada de una CLAVE por teclado.
+De manera pasiva se monitorea con el sensorPinSalida si un auto se mantiene quieto 3 segundos para activar controlarSalidaSinClave().
+Mensaje en LCD: “Ingrese clave”
+2- Sistema ACTIVO (clave ingresada correctamente) / Esperando ingreso del auto (Durante operación normal)
+Condición: sistemaActivado es true.
+Ejecución:
+El sistema ignora el ingreso de caracteres (excepto el *) por teclado. 
+De manera pasiva espera un ingreso de * para salir de inmediato al estado BLOQUEADO.
+Llama a controlarBarrera() para monitorear el sensor de entrada.
+Mensaje en LCD: “Estado Barrera:" / "ESPERANDO DETECCION"
+3- Barrera ABIERTA (Ingresando)
+Condición: sistemaActivado es true y barreraAbierta es true.
+Ejecución:
+La barrera se levanta.
+Se inicia el conteo para cerrar la barrera (10 segundos para final forzoso).
+Cuando el auto activa el sensorPinSalida el tiempo deja de avanzar.
+Cuando el auto activa y desactiva el sensorPinSalida se incrementa el contadorAutos en 1 y el sistema pasa a estado BLOQUEADO
+4- Modo salida SIN CLAVE (Salida automática)
+Condición: !sistemaActivado y modoSalidaSinClave es true.
+Ejecución:
+Se activa si el sensorPinSalida está detectando algo por más de 3 segundos, asumiendo que un auto quiere salir.
+La barrera se levanta.
+Se inicia el conteo para cerrar la barrera (10 segundos para final forzoso).
+Cuando el auto activa el sensorPin el tiempo deja de avanzar
+Cuando el auto activa y desactiva el sensorPin se decrementa el contadorAutos en 1 y el sistema pasa a estado BLOQUEADO.
