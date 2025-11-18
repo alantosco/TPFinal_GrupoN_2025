@@ -305,7 +305,7 @@ void controlarBarrera() {
         Serial.println("Auto en sensor 1 (modo normal)");
     } else {
         lcd.setCursor(0, 1);
-        lcd.print("ESPERANDO DETECCION");
+        lcd.print("ESPERANDO AUTO");
     }
 }
 
